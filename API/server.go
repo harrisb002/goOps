@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/hey", handleHey)
+	http.HandleFunc("/hey", handleSegment)
 	http.HandleFunc("/health", handleHealth)
 
 	addr := "localhost:8000"
@@ -19,22 +19,22 @@ func main() {
 	}
 }
 
-func handleHey(writer http.ResponseWriter, request *http.Request) {
+func handleSegment(writer http.ResponseWriter, request *http.Request) {
 	if request.Method != "GET" {
-		// Pass 405 status code to Error handler to map to string
 		http.Error(writer, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
 	}
 
-	writeResponse(writer, "Hey There!")
+	writeResponse(writer, "Segmenting!")
 }
 
 func handleHealth(writer http.ResponseWriter, request *http.Request) {
 	if request.Method != "GET" {
 		http.Error(writer, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
 	}
 
-	writeResponse(writer, "Ok")
-
+	writeResponse(writer, "Server Status Ok")
 }
 
 func writeResponse(writer http.ResponseWriter, responseStr string) {
